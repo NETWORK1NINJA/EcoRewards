@@ -1,0 +1,57 @@
+﻿@model IEnumerable<EcoRewards.Models.Verification>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.RecyclingEntry.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VerificationDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Verificationstatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Comments)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OfficerId)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.RecyclingEntry.Status)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VerificationDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Verificationstatus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Comments)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OfficerId)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.VerificationId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.VerificationId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.VerificationId })
+        </td>
+    </tr>
+}
+
+</table>

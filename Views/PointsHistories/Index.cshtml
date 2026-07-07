@@ -1,0 +1,45 @@
+﻿@model IEnumerable<EcoRewards.Models.PointsHistory>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.RecyclingEntry.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PointsEarned)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateAwarded)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.RecyclingEntry.Status)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PointsEarned)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateAwarded)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.PointsHistoryId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.PointsHistoryId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.PointsHistoryId })
+        </td>
+    </tr>
+}
+
+</table>

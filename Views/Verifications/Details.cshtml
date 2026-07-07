@@ -1,0 +1,58 @@
+﻿@model EcoRewards.Models.Verification
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Verification</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.RecyclingEntry.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RecyclingEntry.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VerificationDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VerificationDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Verificationstatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Verificationstatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Comments)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Comments)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OfficerId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OfficerId)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.VerificationId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
