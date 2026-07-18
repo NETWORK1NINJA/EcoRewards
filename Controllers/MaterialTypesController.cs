@@ -13,6 +13,9 @@ namespace EcoRewards.Controllers
     public class MaterialTypesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        //<Added
+        [Authorize(Roles = "Administrator")]
+        //Original>
 
         // GET: MaterialTypes
         public ActionResult Index()

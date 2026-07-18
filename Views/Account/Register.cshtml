@@ -18,6 +18,38 @@
                 @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
             </div>
         </div>
+        //<Added
+        <div class="form-group">
+            <div class="row">
+                <!-- 1. The label now lives inside the row grid, taking up the first 2 columns -->
+                @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+        
+                <!-- 2. The dropdown container takes up the remaining 10 columns (no offset needed!) -->
+                <div class="col-md-10">
+                    @if (ViewBag.IsFirstUser == true)
+                    {
+                        @Html.DropDownListFor(m => m.Name, new List<SelectListItem>
+                        {
+                            new SelectListItem { Text = "Administrator", Value = "Administrator" },
+                            new SelectListItem { Text = "Collection Officer", Value = "User" },
+                            new SelectListItem { Text = "Resident", Value = "Resident" }
+                        }, "--- Select Role ---", new { @class = "form-control" })
+                    }
+                    else
+                    {
+                        @Html.DropDownList("RoleDisplay", new List<SelectListItem>
+                        {
+                            new SelectListItem { Text = "Collection Officer", Value = "User" },
+                            new SelectListItem { Text = "Resident", Value = "Resident", Selected = true }
+                        }, new { @class = "form-control", @disabled = "disabled" })
+
+                            @Html.HiddenFor(m => m.Name, new { @Value = "User" })
+                    }
+                    @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        //Original>
         <div class="row">
             @Html.LabelFor(m => m.Password, new { @class = "col-md-2 col-form-label" })
             <div class="col-md-10">
