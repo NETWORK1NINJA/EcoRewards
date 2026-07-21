@@ -134,14 +134,54 @@ namespace EcoRewards.Controllers
             }
         }
 
-        //
+        /*
         // GET: /Account/Register
         [AllowAnonymous]
         public ActionResult Register()
         {
+
+            return View();
+        }*/
+
+        //<Edited
+
+        // GET: /Account/Register
+        [AllowAnonymous]
+        public ActionResult Register()
+        {
+            var context = HttpContext.GetOwinContext().Get<ApplicationDbContext>();
+
+            // Check and create Administrator role
+            if (!context.Roles.Any(r => r.Name == "Administrator"))
+            {
+                context.Roles.Add(new Microsoft.AspNet.Identity.EntityFramework.IdentityRole { Name = "Administrator" });
+            }
+
+            // Check and create Collection Officer role
+            if (!context.Roles.Any(r => r.Name == "Collection Officer"))
+            {
+                context.Roles.Add(new Microsoft.AspNet.Identity.EntityFramework.IdentityRole { Name = "Collection Officer" });
+            }
+
+            // Check and create Resident role
+            if (!context.Roles.Any(r => r.Name == "Resident"))
+            {
+                context.Roles.Add(new Microsoft.AspNet.Identity.EntityFramework.IdentityRole { Name = "Resident" });
+            }
+
+            // Save changes if any roles were missing
+            context.SaveChanges();
+
+            // Check if an account with the Admin role exists
+            var adminRole = context.Roles.FirstOrDefault(r => r.Name == "Admin");
+            bool adminExists = adminRole != null && adminRole.Users.Any();
+
+            ViewBag.IsFirstUser = !adminExists;
             return View();
         }
+        //Original>
 
+        /*
         //
         // POST: /Account/Register
         [HttpPost]
@@ -150,27 +190,111 @@ namespace EcoRewards.Controllers
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
-            {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+            {
+        //<Added
+                try
+        //Original>
+                {
+                    var user = new ApplicationUser { UserName = model.Email, Email = model.Email, /*<Added*//*FirstName = "Test", LastName = "user"};//Original>
+                    var result = await UserManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
+                    {
+                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                        // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                        // Send an email with this link
+                        // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                        return RedirectToAction("Index", "Home");
+                    }
+                    AddErrors(result);
+                }//<Added
+                catch (System.Data.Entity.Validation.DbEntityValidationException ex)
+                {
+                    foreach (var validationErrors in ex.EntityValidationErrors)
+                    {
+                        foreach (var validationError in validationErrors.ValidationErrors)
+                        {
+                            System.Diagnostics.Debug.WriteLine($"CRITICAL_ERROR -> Property: {validationError.PropertyName} Error: {validationError.ErrorMessage}");
+                        }
+                    }
+                    throw;
                 }
-                AddErrors(result);
-            }
+            }//Original>
+
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }*/
+
+        //<Added
+        // POST: /Account/Register
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Register(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                // 1. Check if an Admin already exists in the database roles
+                var adminRole = HttpContext.GetOwinContext()
+                                           .Get<ApplicationDbContext>()
+                                           .Roles
+                                           .FirstOrDefault(r => r.Name == "Admin");
+                bool adminExists = adminRole != null && adminRole.Users.Any();
+
+                // 2. Security Check: If they tried to submit 'Admin' but one already exists, force to 'User'
+                if (model.Name == "Admin" && adminExists)
+                {
+                    model.Name = "User";
+                }
+
+                try
+                {
+                    
+                    // Retains the hardcoded fixes for your database constraints
+                    var user = new ApplicationUser
+                    {
+                        UserName = model.Email,
+                        Email = model.Email,
+                        FirstName = "Test",
+                        LastName = "User"
+                    };
+
+                    var result = await UserManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
+                    {
+                        // Core Fix: Assign the selected role to the user record
+                        await UserManager.AddToRoleAsync(user.Id, model.Name);
+
+                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        return RedirectToAction("Index", "Home");
+                    }
+                    AddErrors(result);
+                }
+                catch (System.Data.Entity.Validation.DbEntityValidationException ex)
+                {
+                    foreach (var validationErrors in ex.EntityValidationErrors)
+                    {
+                        foreach (var validationError in validationErrors.ValidationErrors)
+                        {
+                            System.Diagnostics.Debug.WriteLine($"CRITICAL_ERROR -> Property: {validationError.PropertyName} Error: {validationError.ErrorMessage}");
+                        }
+                    }
+                    throw;
+                }
+            }
+
+            // If validation failed, reload the page with the updated check
+            var roleCheck = HttpContext.GetOwinContext().Get<ApplicationDbContext>().Roles.FirstOrDefault(r => r.Name == "Admin");
+            ViewBag.IsFirstUser = !(roleCheck != null && roleCheck.Users.Any());
+            return View(model);
+        
         }
+        //Original>
 
         //
         // GET: /Account/ConfirmEmail
