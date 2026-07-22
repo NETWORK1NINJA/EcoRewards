@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -9,6 +10,8 @@ namespace EcoRewards.Models
     public class RecyclingEntry
     {
         [Key]
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int RecyclingEntryId { get; set; }
 
         [Required]
@@ -36,11 +39,13 @@ namespace EcoRewards.Models
         public string Notes { get; set; }
 
         // Resident who submitted the recycling
-        public string ResidentId { get; set; }
+        public string UserId { get; set; }
 
         // Navigation Properties
         public virtual MaterialType MaterialType { get; set; }
 
         public virtual DropOffPoint DropOffPoint { get; set; }
+
+        public virtual ApplicationUser User { get; set; }
     }
 }

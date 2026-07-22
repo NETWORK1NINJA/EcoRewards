@@ -36,7 +36,7 @@ namespace EcoRewards.Controllers
             return View(recyclingEntry);
         }
         //<Added
-        [Authorize(Roles = "Resident")]
+        //[Authorize(Roles = "Resident")]
         //Original>
         // GET: RecyclingEntries/Create
         public ActionResult Create()
@@ -51,7 +51,7 @@ namespace EcoRewards.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "RecyclingEntryId,MaterialTypeId,DropOffPointId,Weight,SubmissionDate,Status,Notes,ResidentId")] RecyclingEntry recyclingEntry)
+        public ActionResult Create([Bind(Include = "RecyclingEntryId,MaterialTypeId,DropOffPointId,Weight,SubmissionDate,Status,Notes,UserId")] RecyclingEntry recyclingEntry)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +65,7 @@ namespace EcoRewards.Controllers
             return View(recyclingEntry);
         }
         //<Added
-        [Authorize(Roles = "Collection Officer")]
+        //[Authorize(Roles = "Collection Officer")]
         //Original>
         // GET: RecyclingEntries/Edit/5
         public ActionResult Edit(int? id)
@@ -89,7 +89,7 @@ namespace EcoRewards.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "RecyclingEntryId,MaterialTypeId,DropOffPointId,Weight,SubmissionDate,Status,Notes,ResidentId")] RecyclingEntry recyclingEntry)
+        public ActionResult Edit([Bind(Include = "RecyclingEntryId,MaterialTypeId,DropOffPointId,Weight,SubmissionDate,Status,Notes,UserId")] RecyclingEntry recyclingEntry)
         {
             if (ModelState.IsValid)
             {
@@ -102,7 +102,7 @@ namespace EcoRewards.Controllers
             return View(recyclingEntry);
         }
         //<Added
-        [Authorize(Roles = "Administrator")]
+        //[Authorize(Roles = "Administrator")]
         //Original>
         // GET: RecyclingEntries/Delete/5
         public ActionResult Delete(int? id)

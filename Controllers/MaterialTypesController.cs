@@ -36,7 +36,7 @@ namespace EcoRewards.Controllers
             return View(materialType);
         }
         //<Added
-        [Authorize(Roles = "Administrator")]
+        //[Authorize(Roles = "Administrator")]
         //Original>
         // GET: MaterialTypes/Create
         public ActionResult Create()
@@ -61,7 +61,7 @@ namespace EcoRewards.Controllers
             return View(materialType);
         }
         //<Added
-        [Authorize(Roles = "Administrator")]
+        //[Authorize(Roles = "Administrator")]
         //Original>
         // GET: MaterialTypes/Edit/5
         public ActionResult Edit(int? id)
@@ -94,7 +94,7 @@ namespace EcoRewards.Controllers
             return View(materialType);
         }
         //<Added
-        [Authorize(Roles = "Administrator")]
+        //[Authorize(Roles = "Administrator")]
         //Original>
         // GET: MaterialTypes/Delete/5
         public ActionResult Delete(int? id)

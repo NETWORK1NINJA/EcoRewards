@@ -13,7 +13,12 @@ namespace EcoRewards.Controllers
     public class CollectionEventsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
+        //<Added
+        //[Authorize(Roles = "Collection Officer")]
+        
+        //[Authorize(Roles = "Administrator")]
+       
+        //Original>
         // GET: CollectionEvents
         public ActionResult Index()
         {
@@ -34,7 +39,9 @@ namespace EcoRewards.Controllers
             }
             return View(collectionEvent);
         }
-
+        //<Added
+        //[Authorize(Roles = "Collection Officer")]
+        //Original>
         // GET: CollectionEvents/Create
         public ActionResult Create()
         {
@@ -57,7 +64,9 @@ namespace EcoRewards.Controllers
 
             return View(collectionEvent);
         }
-
+        //<Added
+        //[Authorize(Roles = "Collection Officer")]
+        //Original>
         // GET: CollectionEvents/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -88,7 +97,9 @@ namespace EcoRewards.Controllers
             }
             return View(collectionEvent);
         }
-
+        //<Added
+        //[Authorize(Roles = "Administrator")]
+        //Original>
         // GET: CollectionEvents/Delete/5
         public ActionResult Delete(int? id)
         {

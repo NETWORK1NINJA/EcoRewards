@@ -13,7 +13,9 @@ namespace EcoRewards.Controllers
     public class PointsHistoriesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
+        //<Added
+        //[Authorize(Roles = "Resident")]
+        //Original>
         // GET: PointsHistories
         public ActionResult Index()
         {
