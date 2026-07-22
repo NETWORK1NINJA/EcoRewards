@@ -34,7 +34,9 @@ namespace EcoRewards.Controllers
             }
             return View(dropOffPoint);
         }
-
+        //<Added
+        [Authorize(Roles = "Administrator")]
+        //Original>
         // GET: DropOffPoints/Create
         public ActionResult Create()
         {
@@ -57,7 +59,9 @@ namespace EcoRewards.Controllers
 
             return View(dropOffPoint);
         }
-
+        //<Added
+        [Authorize(Roles = "Administrator")]
+        //Original>
         // GET: DropOffPoints/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -88,7 +92,9 @@ namespace EcoRewards.Controllers
             }
             return View(dropOffPoint);
         }
-
+        //<Added
+        [Authorize(Roles = "Administrator")]
+        //Original>
         // GET: DropOffPoints/Delete/5
         public ActionResult Delete(int? id)
         {

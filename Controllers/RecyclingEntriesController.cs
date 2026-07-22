@@ -35,7 +35,9 @@ namespace EcoRewards.Controllers
             }
             return View(recyclingEntry);
         }
-
+        //<Added
+        [Authorize(Roles = "Resident")]
+        //Original>
         // GET: RecyclingEntries/Create
         public ActionResult Create()
         {
@@ -62,7 +64,9 @@ namespace EcoRewards.Controllers
             ViewBag.MaterialTypeId = new SelectList(db.MaterialTypes, "MaterialTypeId", "Name", recyclingEntry.MaterialTypeId);
             return View(recyclingEntry);
         }
-
+        //<Added
+        [Authorize(Roles = "Collection Officer")]
+        //Original>
         // GET: RecyclingEntries/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -97,7 +101,9 @@ namespace EcoRewards.Controllers
             ViewBag.MaterialTypeId = new SelectList(db.MaterialTypes, "MaterialTypeId", "Name", recyclingEntry.MaterialTypeId);
             return View(recyclingEntry);
         }
-
+        //<Added
+        [Authorize(Roles = "Administrator")]
+        //Original>
         // GET: RecyclingEntries/Delete/5
         public ActionResult Delete(int? id)
         {
